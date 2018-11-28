@@ -1,8 +1,6 @@
 %%
 % 11/28/2018
 % Ethan Stiles, Jerome Suminski, Richard Lavallee
-%
-% Velocity of motor contact point on ball
 %%
 % Position of center of the ball from the plane of reference (ground)
 % Velocity of center of ball as a vector
@@ -12,7 +10,6 @@
 % Pb = Position of center of the ball from ground
 % Vb = Velocity of center of ball wrt world
 % 
-%
 %%
 function [Magnitudes] = MotorVelocity(a,b,c,av,bv,cv,xyz1,xyz2,xyz3)
 % Individual components of vectors from motors 1,2,3 
@@ -33,7 +30,7 @@ Pb = [a,b,c];
 Vc = [av,bv,cv];
 
 % Angular velocity of ball
-wb = cross(Pb,Vc);
+wb = cross(Pb,inv(Vc));
 
 % Position of motor 1,2,3 wrt center of ball
 rm1 = [x1,y1,z1];
