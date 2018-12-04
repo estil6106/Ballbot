@@ -78,9 +78,9 @@ quiver3(x2,y2,z2,Vm2(1),Vm2(2),Vm2(3))
 
 % Plot the velocity path of motor 3
 quiver3(x3,y3,z3,Vm3(1),Vm3(2),Vm3(3))
-title('shit')
-xlabel('Bitches')
-ylabel('Hoes')
-zlabel('Poon')
+title('Velocity')
+xlabel('x')
+ylabel('y')
+zlabel('z')
 legend('Velocity at Wheel 1','Velocity at Wheel 2','Velocity at Wheel 3')
 end
