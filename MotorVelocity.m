@@ -10,7 +10,6 @@
 % Pb = Position of center of the ball from ground
 % Vb = Velocity of center of ball wrt world
 % 
-%%
 %% Variables %%
 % a, x-coordinate of the center of the sphere
 % b, y-coordinate of the center of the sphere
@@ -24,8 +23,17 @@
 % of sphere
 % xyz3, x,y and z component of the location of the third wheel wrt center
 % of sphere
-function [VelMagnitudes] = MotorVelocity(a,b,c,av,bv,cv,xyz1,xyz2,xyz3)
+function [VelMagnitudes] = MotorVelocity(a,b,c,av,bv,cv)
+clf
 % Individual components of vectors from motors 1,2,3 
+% use standard unit circle split 3 ways to find a basic xyz placement of
+% each motor assembly.
+xyz1 = [0,-4,4];
+xyz2 = [cos(5*pi/6)*4,sin(5*pi/6)*4,4];
+xyz3 = [cos(pi/6)*4,sin(pi/6)*4,4];
+
+% Take xyz vectors, break down into components and apply to system
+
 x1 = xyz1(1);
 x2 = xyz2(1);
 x3 = xyz3(1);
@@ -46,9 +54,9 @@ Vc = [av,bv,cv];
 wb = cross(Pb,Vc);
 
 % Position of motor 1,2,3 wrt center of ball
-rm1 = [x1,y1,z1];
-rm2 = [x2,y2,z2];
-rm3 = [x3,y3,z3];
+rm1 = [x1-a,y1-b,z1-c]; % Need to revisit
+rm2 = [x2-a,y2-b,z2-c]; % Need to revisit  a, b, c values for getting motors
+rm3 = [x3-a,y3-b,z3-c]; % Need to revisit  with respect to the center of ball
 
 % Velocity of motor 1,2,3 wrt world
 Vm1 = cross(rm1,wb);
@@ -56,8 +64,8 @@ Vm2 = cross(rm2,wb);
 Vm3 = cross(rm3,wb);
 
 % Angular velocty of motor 1,2,3
-r = 4;
-omg1 = Vm1*r;
+r = 4; %radius of ball
+omg1 = Vm1*r; 
 omg2 = Vm2*r;
 omg3 = Vm3*r;
 
