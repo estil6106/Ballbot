@@ -17,12 +17,13 @@
 % av, x component of velocity of the center of the sphere
 % bv, y component of velocity of the center of the sphere
 % cv, z component of velocity of the center of the sphere
-% xyz1, x,y and z component of the location of the first wheel wrt center
-% of sphere
-% xyz2, x,y and z component of the location of the second wheel wrt center
-% of sphere
-% xyz3, x,y and z component of the location of the third wheel wrt center
-% of sphere
+%
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% To call the function, use the following as your standard x,y,z
+% MotorVelocity(0,0,4,1,1,0)
+% (Center-x,Center-y,Center-z, velocity-x,velocity-y,velocity-z)
+% Modify the x and y velocities (-,-,-,x,y,-) to select direction.
 function [VelMagnitudes] = MotorVelocity(a,b,c,av,bv,cv)
 clf
 % Individual components of vectors from motors 1,2,3 
@@ -32,6 +33,12 @@ xyz1 = [a+0,b-4,c+4];
 xyz2 = [a+cos(5*pi/6)*4,b+sin(5*pi/6)*4,c+4];
 xyz3 = [a+cos(pi/6)*4,b+sin(pi/6)*4,c+4];
 
+% xyz1, x,y and z component of the location of the first wheel wrt center
+% of sphere
+% xyz2, x,y and z component of the location of the second wheel wrt center
+% of sphere
+% xyz3, x,y and z component of the location of the third wheel wrt center
+% of sphere
 
 
 % Take xyz vectors, break down into components and apply to system
@@ -97,7 +104,7 @@ quiver3(x2,y2,z2,Vm2(1),Vm2(2),Vm2(3),'r')
 
 % Plot the velocity path of motor 3
 quiver3(x3,y3,z3,Vm3(1),Vm3(2),Vm3(3),'g')
-title('Velocity')
+title('Direction of Velocity - 3D')
 xlabel('x')
 ylabel('y')
 zlabel('z')
