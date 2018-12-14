@@ -28,9 +28,11 @@ clf
 % Individual components of vectors from motors 1,2,3 
 % use standard unit circle split 3 ways to find a basic xyz placement of
 % each motor assembly.
-xyz1 = [0,-4,4];
-xyz2 = [cos(5*pi/6)*4,sin(5*pi/6)*4,4];
-xyz3 = [cos(pi/6)*4,sin(pi/6)*4,4];
+xyz1 = [a+0,b-4,c+4];
+xyz2 = [a+cos(5*pi/6)*4,b+sin(5*pi/6)*4,c+4];
+xyz3 = [a+cos(pi/6)*4,b+sin(pi/6)*4,c+4];
+
+
 
 % Take xyz vectors, break down into components and apply to system
 
@@ -59,36 +61,62 @@ rm2 = [x2-a,y2-b,z2-c]; % Need to revisit  a, b, c values for getting motors
 rm3 = [x3-a,y3-b,z3-c]; % Need to revisit  with respect to the center of ball
 
 % Velocity of motor 1,2,3 wrt world
-Vm1 = cross(rm1,wb);
-Vm2 = cross(rm2,wb);
-Vm3 = cross(rm3,wb);
+Vm1 = -1.*cross(rm1,wb);
+Vm2 = -1.*cross(rm2,wb);
+Vm3 = -1.*cross(rm3,wb);
 
-% Angular velocty of motor 1,2,3
+% Angular velocity of ball
 r = 4; %radius of ball
-omg1 = Vm1*r; 
-omg2 = Vm2*r;
-omg3 = Vm3*r;
+% wb is known matrix
 
-% Angular acceleration of motor 1,2,3 wrt wheel
+% Angular acceleration of ball
+alpha = wb.^2.*r;
 
-a1 = omg1.^2 *r;
-a2 = omg2.^2 *r;
-a3 = omg3.^2 *r;
 
 VelMagnitudes = [Vm1;Vm2;Vm3];
-AccMagnitudes = [a1;a2;a3];
+AccMagnitudes = [alpha];
 
+
+%%
+% Angular Acceleration 
+%%
+% Determine constant angular acceleration required at specific time
+% intervals to achieve required velocity in specified time.
+acceleration = [];
+g = 0.5; %Step size
+for i=1:g:10
+   acceleration = [acceleration; [alpha]./i]; %acceleration components x,y,z at i seconds
+end
+
+figure(1)
 % Plot the velocity path of motor 1
 hold on
-quiver3(x1,y1,z1,Vm1(1),Vm1(2),Vm1(3))
+quiver3(x1,y1,z1,Vm1(1),Vm1(2),Vm1(3),'b')
 % Plot the velocity path of motor 2
-quiver3(x2,y2,z2,Vm2(1),Vm2(2),Vm2(3))
+quiver3(x2,y2,z2,Vm2(1),Vm2(2),Vm2(3),'r')
 
 % Plot the velocity path of motor 3
-quiver3(x3,y3,z3,Vm3(1),Vm3(2),Vm3(3))
+quiver3(x3,y3,z3,Vm3(1),Vm3(2),Vm3(3),'g')
 title('Velocity')
 xlabel('x')
 ylabel('y')
 zlabel('z')
 legend('Velocity at Wheel 1','Velocity at Wheel 2','Velocity at Wheel 3')
+
+fprintf('The angular acceleration of motor 1 is: %n')
+alpha
+
+
+%Acceleration Curve ( accel required / unit time to achieve velocity in x
+%seconds
+figure(2)
+hold on
+title('Angular Acceleration Profile')
+xlabel('Time Spread Over')
+ylabel('Acceleration')
+plot(1:g:10,acceleration(:,1),'b')
+plot(1:g:10,acceleration(:,2),'-r')
+plot(1:g:10,acceleration(:,3),':g')
+legend('X','Y','Z')
+clear
 end
